@@ -2,7 +2,10 @@ module github.com/felipemarinho97/e-commerce
 
 go 1.17
 
-require github.com/gosidekick/goconfig v1.3.1
+require (
+	github.com/gosidekick/goconfig v1.3.1
+	google.golang.org/protobuf v1.27.1
+)
 
 require (
 	github.com/fsnotify/fsnotify v1.5.1 // indirect
