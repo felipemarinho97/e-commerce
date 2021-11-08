@@ -2,9 +2,13 @@ package main
 
 import (
 	"context"
+
+	"github.com/felipemarinho97/e-commerce/api"
 )
 
 func main() {
-	_, cancel := context.WithCancel(context.Background())
+	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
+
+	api.Server(ctx)
 }
