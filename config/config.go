@@ -14,6 +14,7 @@ type Config struct {
 	DiscountAddr string `json:"discount_addr" cfg:"discount_addr" cfgDefault:"localhost:5050"`
 	Host         string `json:"host" cfg:"host" cfgDefault:"localhost"`
 	Port         int    `json:"port" cfg:"port" cfgDefault:"8080"`
+	GRPCPort     int    `json:"grpc_port" cfg:"grpc_port" cfgDefault:"50051"`
 }
 
 var (
