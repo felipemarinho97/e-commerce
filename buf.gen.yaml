@@ -1,0 +1,16 @@
+version: v1
+plugins:
+  - name: go
+    out: examples/go
+    opt:
+      - paths=source_relative
+  - name: go-grpc
+    out: examples/go
+    opt:
+      - paths=source_relative
+  - name: grpc-gateway
+    out: examples/go
+    opt:
+      - paths=source_relative
+  - name: openapiv2
+    out: doc/openapiv2
