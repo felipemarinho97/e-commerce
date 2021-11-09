@@ -13,11 +13,13 @@ import (
 	"google.golang.org/grpc"
 )
 
+// server is used to implement ecommerce.EcommerceServiceServer.
 type server struct {
 	pb.UnimplementedEcommerceServiceServer
 	db db.Database
 }
 
+// Server is used to create a new server and start it.
 func Server(ctx context.Context) {
 	cfg := config.Get()
 

@@ -29,7 +29,7 @@ func Test_server_Checkout(t *testing.T) {
 		wantErr error
 	}{
 		{
-			name: "succesful checkout: product in stock",
+			name: "successful checkout: product in stock",
 			fields: fields{
 				db: &db.DB{
 					Products: &map[int32]*db.Product{
@@ -74,7 +74,7 @@ func Test_server_Checkout(t *testing.T) {
 			wantErr: nil,
 		},
 		{
-			name: "succesful checkout: two products",
+			name: "successful checkout: two products",
 			fields: fields{
 				db: &db.DB{
 					Products: &map[int32]*db.Product{

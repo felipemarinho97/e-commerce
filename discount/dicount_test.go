@@ -8,25 +8,25 @@ import (
 	"google.golang.org/grpc"
 )
 
-// MockClientConn is a mock implementation of grpc.ClientConn
+// MockClientConn is a mock implementation of grpc.ClientConn.
 type MockClientConn struct{}
 
-// Close the mock client connection
+// Close the mock client connection.
 func (cc *MockClientConn) Close() error {
 	return nil
 }
 
-// MockDiscountClient is a mock implementation of DiscountClient
+// MockDiscountClient is a mock implementation of DiscountClient.
 type MockDiscountClient struct {
 	GetDiscountMock func(ctx context.Context, in *GetDiscountRequest, opts ...grpc.CallOption) (*GetDiscountResponse, error)
 }
 
-// GetDiscount is a mock implementation of DiscountClient.GetDiscount
+// GetDiscount is a mock implementation of DiscountClient.GetDiscount.
 func (mdc *MockDiscountClient) GetDiscount(ctx context.Context, in *GetDiscountRequest, opts ...grpc.CallOption) (*GetDiscountResponse, error) {
 	return mdc.GetDiscountMock(ctx, in, opts...)
 }
 
-// MockGetPercentage mocks the implementation of GetPercentage
+// MockGetPercentage mocks the implementation of GetPercentage.
 func MockGetPercentage(p float32, wantErr bool) {
 	mockClient := &MockDiscountClient{
 		GetDiscountMock: func(ctx context.Context, in *GetDiscountRequest, opts ...grpc.CallOption) (*GetDiscountResponse, error) {
