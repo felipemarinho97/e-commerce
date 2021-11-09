@@ -64,7 +64,7 @@ Then type:
 Unit tests cover the following percentages of the packages as shown below:
 - db: 100%
 - discount: 83.3% (This percentage ignores the protobuf generated code)
-- api: 64%
+- api: 66.7%
 
 ### Running the unit tests
 Run the following command at the root of the project:

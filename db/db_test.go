@@ -180,6 +180,15 @@ func TestNew(t *testing.T) {
 			wantErr: false,
 		},
 		{
+			name:     "successfully create a new database",
+			mockFile: "./fixtures/gift.json",
+			want: &DB{
+				Products: &map[int32]*Product{6: {ID: 6, IsGift: true}},
+				Gifts:    &map[int32]*Product{6: {ID: 6, IsGift: true}},
+			},
+			wantErr: false,
+		},
+		{
 			name:     "fail to create a new database",
 			mockFile: "invalid.json",
 			want:     nil,
@@ -210,6 +219,104 @@ func TestNew(t *testing.T) {
 			}
 			if string(g) != string(w) {
 				t.Errorf("New() = %v, want %v", string(g), string(w))
+			}
+		})
+	}
+}
+
+func TestDB_GetGift(t *testing.T) {
+	type fields struct {
+		Products *map[int32]*Product
+		Gifts    *map[int32]*Product
+	}
+	type args struct {
+		ctx context.Context
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		want    ProductResponse
+		wantErr bool
+	}{
+		{
+			name: "successfully get a gift",
+			fields: fields{
+				Products: &map[int32]*Product{
+					1: {
+						ID:          1,
+						Title:       "Product 1",
+						Description: "Description 1",
+						Amount:      *atomic.NewUint32(100),
+						Price:       10,
+						IsGift:      true,
+					},
+				},
+				Gifts: &map[int32]*Product{
+					1: {
+						ID:          1,
+						Title:       "Product 1",
+						Description: "Description 1",
+						Amount:      *atomic.NewUint32(100),
+						Price:       10,
+						IsGift:      true,
+					},
+				},
+			},
+			args: args{
+				ctx: context.Background(),
+			},
+			want: ProductResponse{
+				ID:     1,
+				Amount: 1,
+				Price:  10,
+			},
+			wantErr: false,
+		},
+		{
+			name: "fail to get a gift",
+			fields: fields{
+				Products: &map[int32]*Product{
+					1: {
+						ID:          1,
+						Title:       "Product 1",
+						Description: "Description 1",
+						Amount:      *atomic.NewUint32(100),
+						Price:       10,
+						IsGift:      true,
+					},
+				},
+				Gifts: &map[int32]*Product{
+					1: {
+						ID:          1,
+						Title:       "Product 1",
+						Description: "Description 1",
+						Amount:      *atomic.NewUint32(0),
+						Price:       10,
+						IsGift:      true,
+					},
+				},
+			},
+			args: args{
+				ctx: context.Background(),
+			},
+			want:    ProductResponse{},
+			wantErr: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			db := &DB{
+				Products: tt.fields.Products,
+				Gifts:    tt.fields.Gifts,
+			}
+			got, err := db.GetGift(tt.args.ctx)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("DB.GetGift() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("DB.GetGift() = %v, want %v", got, tt.want)
 			}
 		})
 	}
