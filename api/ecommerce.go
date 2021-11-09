@@ -51,8 +51,34 @@ func (s server) Checkout(ctx context.Context, in *pb.CheckoutRequest) (*pb.Check
 		response.TotalAmount += p.TotalAmount
 		response.TotalDiscount += p.Discount
 	}
+	err := addGift(ctx, response, s.db)
+	if err != nil {
+		common.Logger.LogError("Checkout", "error getting gift", err.Error())
+	}
+
 	response.TotalAmountWithDiscount = response.TotalAmount - response.TotalDiscount
 	common.Logger.LogInfo("Checkout", "checkout completed", fmt.Sprintf("items=%d", len(in.Products)))
 
 	return response, nil
+}
+
+func addGift(ctx context.Context, response *pb.CheckoutResponse, db db.Database) error {
+	gift, err := db.GetGift(ctx)
+	if err != nil {
+		return err
+	}
+	g := &pb.ProductResponse{
+		Id:          gift.ID,
+		Quantity:    1,
+		UnitAmount:  gift.Price,
+		Discount:    gift.Price,
+		TotalAmount: gift.Price,
+		IsGift:      true,
+	}
+	response.Products = append(response.Products, g)
+
+	response.TotalAmount += g.TotalAmount
+	response.TotalDiscount += g.Discount
+
+	return nil
 }

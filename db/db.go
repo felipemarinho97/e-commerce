@@ -13,10 +13,12 @@ import (
 
 type Database interface {
 	GetProduct(ctx context.Context, id, quantity int64) (ProductResponse, error)
+	GetGift(ctx context.Context) (ProductResponse, error)
 }
 
 type DB struct {
 	Products *map[int64]*Product
+	Gifts    *map[int64]*Product
 }
 
 type Product struct {
@@ -46,14 +48,19 @@ func New() (Database, error) {
 	}
 
 	var pMap map[int64]*Product = make(map[int64]*Product, len(products))
+	var giftMap map[int64]*Product = make(map[int64]*Product)
 
 	for _, product := range products {
 		product := product
 		pMap[product.ID] = &product
+		if product.IsGift {
+			giftMap[product.ID] = &product
+		}
 	}
 
 	return &DB{
 		Products: &pMap,
+		Gifts:    &giftMap,
 	}, nil
 }
 
@@ -82,4 +89,18 @@ func (db *DB) GetProduct(ctx context.Context, id, quantity int64) (ProductRespon
 	}
 
 	return p, nil
+}
+
+func (db *DB) GetGift(ctx context.Context) (ProductResponse, error) {
+	for _, product := range *db.Gifts {
+		if product.Amount.Load() > 0 {
+			product.Amount.Sub(1)
+			return ProductResponse{
+				ID:     product.ID,
+				Amount: 1,
+				Price:  product.Price,
+			}, nil
+		}
+	}
+	return ProductResponse{}, common.ErrGiftsOutOfStock
 }
