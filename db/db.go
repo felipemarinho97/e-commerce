@@ -16,7 +16,7 @@ type Database interface {
 }
 
 type DB struct {
-	products *map[int64]*Product
+	Products *map[int64]*Product
 }
 
 type Product struct {
@@ -55,12 +55,12 @@ func New() Database {
 	}
 
 	return &DB{
-		products: &pMap,
+		Products: &pMap,
 	}
 }
 
 func (db *DB) GetProduct(ctx context.Context, id, quantity int64) (ProductResponse, error) {
-	product, ok := (*db.products)[id]
+	product, ok := (*db.Products)[id]
 	if !ok {
 		return ProductResponse{}, common.ErrProductNotFound
 	}
