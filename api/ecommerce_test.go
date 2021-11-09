@@ -32,17 +32,17 @@ func Test_server_Checkout(t *testing.T) {
 			name: "succesful checkout: product in stock",
 			fields: fields{
 				db: &db.DB{
-					Products: &map[int64]*db.Product{
+					Products: &map[int32]*db.Product{
 						1: {
 							ID:          1,
 							Title:       "Product 1",
 							Description: "Product 1 description",
-							Amount:      *atomic.NewUint64(100),
+							Amount:      *atomic.NewUint32(100),
 							Price:       15654,
 							IsGift:      false,
 						},
 					},
-					Gifts: &map[int64]*db.Product{},
+					Gifts: &map[int32]*db.Product{},
 				},
 			},
 			args: args{
@@ -77,12 +77,12 @@ func Test_server_Checkout(t *testing.T) {
 			name: "succesful checkout: two products",
 			fields: fields{
 				db: &db.DB{
-					Products: &map[int64]*db.Product{
+					Products: &map[int32]*db.Product{
 						1: {
 							ID:          1,
 							Title:       "Product 1",
 							Description: "Product 1 description",
-							Amount:      *atomic.NewUint64(100),
+							Amount:      *atomic.NewUint32(100),
 							Price:       15654,
 							IsGift:      false,
 						},
@@ -90,12 +90,12 @@ func Test_server_Checkout(t *testing.T) {
 							ID:          2,
 							Title:       "Product 2",
 							Description: "Product 2 description",
-							Amount:      *atomic.NewUint64(100),
+							Amount:      *atomic.NewUint32(100),
 							Price:       15654,
 							IsGift:      false,
 						},
 					},
-					Gifts: &map[int64]*db.Product{},
+					Gifts: &map[int32]*db.Product{},
 				},
 			},
 			args: args{
@@ -142,17 +142,17 @@ func Test_server_Checkout(t *testing.T) {
 			name: "error on checkout: product not in stock",
 			fields: fields{
 				db: &db.DB{
-					Products: &map[int64]*db.Product{
+					Products: &map[int32]*db.Product{
 						1: {
 							ID:          1,
 							Title:       "Product 1",
 							Description: "Product 1 description",
-							Amount:      *atomic.NewUint64(0),
+							Amount:      *atomic.NewUint32(0),
 							Price:       15654,
 							IsGift:      false,
 						},
 					},
-					Gifts: &map[int64]*db.Product{},
+					Gifts: &map[int32]*db.Product{},
 				},
 			},
 			args: args{
@@ -184,17 +184,17 @@ func Test_server_Checkout(t *testing.T) {
 			name: "error on checkout: product not in database",
 			fields: fields{
 				db: &db.DB{
-					Products: &map[int64]*db.Product{
+					Products: &map[int32]*db.Product{
 						1: {
 							ID:          1,
 							Title:       "Product 1",
 							Description: "Product 1 description",
-							Amount:      *atomic.NewUint64(100),
+							Amount:      *atomic.NewUint32(100),
 							Price:       15654,
 							IsGift:      false,
 						},
 					},
-					Gifts: &map[int64]*db.Product{},
+					Gifts: &map[int32]*db.Product{},
 				},
 			},
 			args: args{
@@ -269,12 +269,12 @@ func Test_addGift(t *testing.T) {
 					TotalDiscount:           0,
 				},
 				db: &db.DB{
-					Products: &map[int64]*db.Product{
+					Products: &map[int32]*db.Product{
 						1: {
 							ID:          1,
 							Title:       "Product 1",
 							Description: "Product 1 description",
-							Amount:      *atomic.NewUint64(100),
+							Amount:      *atomic.NewUint32(100),
 							Price:       15654,
 							IsGift:      false,
 						},
@@ -282,17 +282,17 @@ func Test_addGift(t *testing.T) {
 							ID:          2,
 							Title:       "Product 2",
 							Description: "Product 2 description",
-							Amount:      *atomic.NewUint64(100),
+							Amount:      *atomic.NewUint32(100),
 							Price:       15654,
 							IsGift:      false,
 						},
 					},
-					Gifts: &map[int64]*db.Product{
+					Gifts: &map[int32]*db.Product{
 						6: {
 							ID:          6,
 							Title:       "Gift 1",
 							Description: "Gift 1 description",
-							Amount:      *atomic.NewUint64(100),
+							Amount:      *atomic.NewUint32(100),
 							Price:       15654,
 							IsGift:      true,
 						},
@@ -329,12 +329,12 @@ func Test_addGift(t *testing.T) {
 					TotalDiscount:           0,
 				},
 				db: &db.DB{
-					Gifts: &map[int64]*db.Product{
+					Gifts: &map[int32]*db.Product{
 						1: {
 							ID:          1,
 							Title:       "Product 1",
 							Description: "Product 1 description",
-							Amount:      *atomic.NewUint64(0),
+							Amount:      *atomic.NewUint32(0),
 							Price:       15654,
 							IsGift:      false,
 						},

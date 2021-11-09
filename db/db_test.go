@@ -13,12 +13,12 @@ import (
 
 func TestDB_GetProduct(t *testing.T) {
 	type fields struct {
-		products *map[int64]*Product
+		products *map[int32]*Product
 	}
 	type args struct {
 		ctx      context.Context
-		id       int64
-		quantity int64
+		id       int32
+		quantity int32
 	}
 	tests := []struct {
 		name    string
@@ -30,12 +30,12 @@ func TestDB_GetProduct(t *testing.T) {
 		{
 			name: "successfuly get a product that is on the stock",
 			fields: fields{
-				products: &map[int64]*Product{
+				products: &map[int32]*Product{
 					1: {
 						ID:          1,
 						Title:       "Product 1",
 						Description: "Description 1",
-						Amount:      *atomic.NewUint64(100),
+						Amount:      *atomic.NewUint32(100),
 						Price:       10,
 						IsGift:      false,
 					},
@@ -56,12 +56,12 @@ func TestDB_GetProduct(t *testing.T) {
 		{
 			name: "fail to get a product that is not on the stock",
 			fields: fields{
-				products: &map[int64]*Product{
+				products: &map[int32]*Product{
 					1: {
 						ID:          1,
 						Title:       "Product 1",
 						Description: "Description 1",
-						Amount:      *atomic.NewUint64(0),
+						Amount:      *atomic.NewUint32(0),
 						Price:       10,
 						IsGift:      false,
 					},
@@ -78,12 +78,12 @@ func TestDB_GetProduct(t *testing.T) {
 		{
 			name: "fail to get a product that do not exists",
 			fields: fields{
-				products: &map[int64]*Product{
+				products: &map[int32]*Product{
 					1: {
 						ID:          1,
 						Title:       "Product 1",
 						Description: "Description 1",
-						Amount:      *atomic.NewUint64(100),
+						Amount:      *atomic.NewUint32(100),
 						Price:       10,
 						IsGift:      false,
 					},
@@ -100,12 +100,12 @@ func TestDB_GetProduct(t *testing.T) {
 		{
 			name: "fail to get a product that is gift",
 			fields: fields{
-				products: &map[int64]*Product{
+				products: &map[int32]*Product{
 					1: {
 						ID:          1,
 						Title:       "Product 1",
 						Description: "Description 1",
-						Amount:      *atomic.NewUint64(100),
+						Amount:      *atomic.NewUint32(100),
 						Price:       10,
 						IsGift:      true,
 					},
@@ -122,12 +122,12 @@ func TestDB_GetProduct(t *testing.T) {
 		{
 			name: "partially get a product that is on the stock",
 			fields: fields{
-				products: &map[int64]*Product{
+				products: &map[int32]*Product{
 					1: {
 						ID:          1,
 						Title:       "Product 1",
 						Description: "Description 1",
-						Amount:      *atomic.NewUint64(100),
+						Amount:      *atomic.NewUint32(100),
 						Price:       10,
 						IsGift:      false,
 					},
@@ -174,8 +174,8 @@ func TestNew(t *testing.T) {
 			name:     "successfuly create a new database",
 			mockFile: "./fixtures/empty.json",
 			want: &DB{
-				Products: &map[int64]*Product{0: {}},
-				Gifts:    &map[int64]*Product{},
+				Products: &map[int32]*Product{0: {}},
+				Gifts:    &map[int32]*Product{},
 			},
 			wantErr: false,
 		},

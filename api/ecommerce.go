@@ -12,14 +12,14 @@ import (
 	pb "github.com/felipemarinho97/e-commerce/examples/go/protos/api"
 )
 
-func calculateDiscount(ctx context.Context, productID, price int64) int64 {
+func calculateDiscount(ctx context.Context, productID, price int32) int32 {
 	d, err := discount.GetDiscountPercentage(ctx, int32(productID))
 	if err != nil {
 		common.Logger.LogError("calculateDiscount", "Error getting discount percentage", err.Error())
 		return 0
 	}
 
-	return int64(math.Ceil(float64(price) * float64(d)))
+	return int32(math.Ceil(float64(price) * float64(d)))
 }
 
 func (s server) Checkout(ctx context.Context, in *pb.CheckoutRequest) (*pb.CheckoutResponse, error) {
