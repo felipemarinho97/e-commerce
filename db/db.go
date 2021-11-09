@@ -11,16 +11,19 @@ import (
 	"go.uber.org/atomic"
 )
 
+// Database is the interface for the database.
 type Database interface {
 	GetProduct(ctx context.Context, id, quantity int32) (ProductResponse, error)
 	GetGift(ctx context.Context) (ProductResponse, error)
 }
 
+// DB is the database implementation.
 type DB struct {
 	Products *map[int32]*Product
 	Gifts    *map[int32]*Product
 }
 
+// Product is the product model.
 type Product struct {
 	ID          int32         `json:"id"`
 	Title       string        `json:"title"`
@@ -30,12 +33,14 @@ type Product struct {
 	IsGift      bool          `json:"is_gift"`
 }
 
+// ProductResponse is the response for the GetProduct method.
 type ProductResponse struct {
 	ID     int32 `json:"id"`
 	Amount int32 `json:"amount"`
 	Price  int32 `json:"price"`
 }
 
+// New creates a new database reading the products from the given file.
 func New() (Database, error) {
 	out, err := ioutil.ReadFile(config.Get().ProductsMockFile)
 	if err != nil {
@@ -64,6 +69,7 @@ func New() (Database, error) {
 	}, nil
 }
 
+// GetProduct returns the product with the given id.
 func (db *DB) GetProduct(ctx context.Context, id, quantity int32) (ProductResponse, error) {
 	product, ok := (*db.Products)[id]
 	if !ok {
@@ -91,6 +97,7 @@ func (db *DB) GetProduct(ctx context.Context, id, quantity int32) (ProductRespon
 	return p, nil
 }
 
+// GetGift returns the next available gift product.
 func (db *DB) GetGift(ctx context.Context) (ProductResponse, error) {
 	for _, product := range *db.Gifts {
 		if product.Amount.Load() > 0 {

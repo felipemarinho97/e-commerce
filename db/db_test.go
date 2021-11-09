@@ -28,7 +28,7 @@ func TestDB_GetProduct(t *testing.T) {
 		wantErr error
 	}{
 		{
-			name: "successfuly get a product that is on the stock",
+			name: "successfully get a product that is on the stock",
 			fields: fields{
 				products: &map[int32]*Product{
 					1: {
@@ -171,7 +171,7 @@ func TestNew(t *testing.T) {
 		wantErr  bool
 	}{
 		{
-			name:     "successfuly create a new database",
+			name:     "successfully create a new database",
 			mockFile: "./fixtures/empty.json",
 			want: &DB{
 				Products: &map[int32]*Product{0: {}},

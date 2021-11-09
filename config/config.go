@@ -22,7 +22,7 @@ var (
 	once sync.Once
 )
 
-// Get returns an instance of the config settings
+// Get returns an instance of the config settings.
 func Get() *Config {
 	once.Do(func() {
 		goconfig.PrefixEnv = "HASH"
@@ -33,5 +33,6 @@ func Get() *Config {
 			os.Exit(-1)
 		}
 	})
+
 	return cfg
 }

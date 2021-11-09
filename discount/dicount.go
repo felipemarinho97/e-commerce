@@ -7,6 +7,7 @@ import (
 	"google.golang.org/grpc"
 )
 
+// ClientConn useful for testing.
 type ClientConn interface {
 	Close() error
 }
