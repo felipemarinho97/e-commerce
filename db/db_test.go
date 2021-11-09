@@ -175,6 +175,7 @@ func TestNew(t *testing.T) {
 			mockFile: "./fixtures/empty.json",
 			want: &DB{
 				Products: &map[int64]*Product{0: {}},
+				Gifts:    &map[int64]*Product{},
 			},
 			wantErr: false,
 		},
