@@ -66,6 +66,8 @@ Unit tests cover the following percentages of the packages as shown below:
 - discount: 83.3% (This percentage ignores the protobuf generated code)
 - api: 66.7%
 
+The overall coverage is: 83.33%
+
 ### Running the unit tests
 Run the following command at the root of the project:
 
