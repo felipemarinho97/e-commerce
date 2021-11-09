@@ -1,20 +1,20 @@
 package config
 
 import (
-	"log"
 	"os"
 	"sync"
 
+	"github.com/felipemarinho97/e-commerce/common"
 	"github.com/gosidekick/goconfig"
 )
 
 // Config struct contains all configurations and parameters
 // of the current program.
 type Config struct {
-	DiscountAddr string `json:"discount_addr" cfg:"discount_addr" cfgDefault:"localhost:5050"`
-	Host         string `json:"host" cfg:"host" cfgDefault:"localhost"`
-	Port         int    `json:"port" cfg:"port" cfgDefault:"8080"`
-	GRPCPort     int    `json:"grpc_port" cfg:"grpc_port" cfgDefault:"50051"`
+	DiscountAddr     string `json:"discount_addr" cfg:"discount_addr" cfgDefault:"localhost:5050"`
+	Host             string `json:"host" cfg:"host" cfgDefault:"localhost"`
+	Port             int    `json:"port" cfg:"port" cfgDefault:"8080"`
+	ProductsMockFile string `json:"products_mock_file" cfg:"products_mock_file" cfgDefault:"./products.json"`
 }
 
 var (
@@ -29,7 +29,7 @@ func Get() *Config {
 		cfg = &Config{}
 		err := goconfig.Parse(cfg)
 		if err != nil {
-			log.Println("error parsing config:", err)
+			common.Logger.LogError("error parsing config", err.Error())
 			os.Exit(-1)
 		}
 	})

@@ -2,7 +2,6 @@ package discount
 
 import (
 	"context"
-	"log"
 
 	"github.com/felipemarinho97/e-commerce/config"
 	"google.golang.org/grpc"
@@ -14,7 +13,7 @@ type DiscountService struct {
 }
 
 func New(addr string) (*DiscountService, error) {
-	conn, err := grpc.Dial(addr)
+	conn, err := grpc.Dial(addr, grpc.WithInsecure())
 	if err != nil {
 		return &DiscountService{}, err
 	}
@@ -39,7 +38,7 @@ func (dc *DiscountService) Quit() (err error) {
 func GetDiscountPercentage(ctx context.Context, productID int32) (float32, error) {
 	dc, err := New(config.Get().DiscountAddr)
 	if err != nil {
-		log.Fatalf("Error")
+		return 0, err
 	}
 	defer dc.Quit()
 
