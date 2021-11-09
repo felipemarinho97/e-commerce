@@ -12,28 +12,28 @@ import (
 )
 
 type Database interface {
-	GetProduct(ctx context.Context, id, quantity int64) (ProductResponse, error)
+	GetProduct(ctx context.Context, id, quantity int32) (ProductResponse, error)
 	GetGift(ctx context.Context) (ProductResponse, error)
 }
 
 type DB struct {
-	Products *map[int64]*Product
-	Gifts    *map[int64]*Product
+	Products *map[int32]*Product
+	Gifts    *map[int32]*Product
 }
 
 type Product struct {
-	ID          int64         `json:"id"`
+	ID          int32         `json:"id"`
 	Title       string        `json:"title"`
 	Description string        `json:"description"`
-	Amount      atomic.Uint64 `json:"amount"`
-	Price       int64         `json:"price"`
+	Amount      atomic.Uint32 `json:"amount"`
+	Price       int32         `json:"price"`
 	IsGift      bool          `json:"is_gift"`
 }
 
 type ProductResponse struct {
-	ID     int64 `json:"id"`
-	Amount int64 `json:"amount"`
-	Price  int64 `json:"price"`
+	ID     int32 `json:"id"`
+	Amount int32 `json:"amount"`
+	Price  int32 `json:"price"`
 }
 
 func New() (Database, error) {
@@ -47,8 +47,8 @@ func New() (Database, error) {
 		return nil, fmt.Errorf("error unmarshalling file: %s", err.Error())
 	}
 
-	var pMap map[int64]*Product = make(map[int64]*Product, len(products))
-	var giftMap map[int64]*Product = make(map[int64]*Product)
+	var pMap map[int32]*Product = make(map[int32]*Product, len(products))
+	var giftMap map[int32]*Product = make(map[int32]*Product)
 
 	for _, product := range products {
 		product := product
@@ -64,7 +64,7 @@ func New() (Database, error) {
 	}, nil
 }
 
-func (db *DB) GetProduct(ctx context.Context, id, quantity int64) (ProductResponse, error) {
+func (db *DB) GetProduct(ctx context.Context, id, quantity int32) (ProductResponse, error) {
 	product, ok := (*db.Products)[id]
 	if !ok {
 		return ProductResponse{}, common.ErrProductNotFound
@@ -80,11 +80,11 @@ func (db *DB) GetProduct(ctx context.Context, id, quantity int64) (ProductRespon
 		Price: product.Price,
 	}
 
-	if amount := product.Amount.Load(); amount < uint64(quantity) {
+	if amount := product.Amount.Load(); amount < uint32(quantity) {
 		product.Amount.CAS(amount, 0)
-		p.Amount = int64(amount)
+		p.Amount = int32(amount)
 	} else {
-		product.Amount.Sub(uint64(quantity))
+		product.Amount.Sub(uint32(quantity))
 		p.Amount = quantity
 	}
 

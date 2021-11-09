@@ -68,19 +68,19 @@
       "properties": {
         "totalAmount": {
           "type": "integer",
-          "format": "int64",
+          "format": "int32",
           "example": 5245,
           "description": "Total price of the products in cents"
         },
         "totalAmountWithDiscount": {
           "type": "integer",
-          "format": "int64",
+          "format": "int32",
           "example": 5245,
           "description": "Total price of the products with discount in cents"
         },
         "totalDiscount": {
           "type": "integer",
-          "format": "int64",
+          "format": "int32",
           "example": 0,
           "description": "Total discount applied to the products in cents"
         },
@@ -98,13 +98,13 @@
       "properties": {
         "id": {
           "type": "integer",
-          "format": "int64",
+          "format": "int32",
           "example": 1,
           "description": "Product ID"
         },
         "quantity": {
           "type": "integer",
-          "format": "int64",
+          "format": "int32",
           "example": 5,
           "description": "Quantity of products to be checked out"
         }
@@ -115,31 +115,31 @@
       "properties": {
         "id": {
           "type": "integer",
-          "format": "int64",
+          "format": "int32",
           "example": 1,
           "description": "Product ID"
         },
         "quantity": {
           "type": "integer",
-          "format": "int64",
+          "format": "int32",
           "example": 5,
           "description": "Quantity of products to be checked out"
         },
         "unitAmount": {
           "type": "integer",
-          "format": "int64",
+          "format": "int32",
           "example": 1045,
           "description": "Unit price of the product in cents"
         },
         "totalAmount": {
           "type": "integer",
-          "format": "int64",
+          "format": "int32",
           "example": 5245,
           "description": "Total price of the product in cents"
         },
         "discount": {
           "type": "integer",
-          "format": "int64",
+          "format": "int32",
           "example": 0,
           "description": "Discount applied to the product in cents"
         },
