@@ -19,7 +19,7 @@ This is a proxy to the gRPC service. The mapping to REST is done by the `ecomerc
 The `ecommerce-rest` implement the following endpoints:
  - POST /v1/products
 
-See more info about this service [here](/rest/README.md).
+See more info about this service [here](/rest/).
 
 ---
 
