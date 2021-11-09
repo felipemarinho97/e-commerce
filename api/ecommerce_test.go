@@ -7,12 +7,14 @@ import (
 	"testing"
 
 	"github.com/felipemarinho97/e-commerce/common"
+	"github.com/felipemarinho97/e-commerce/config"
 	"github.com/felipemarinho97/e-commerce/db"
 	pb "github.com/felipemarinho97/e-commerce/examples/go/protos/api"
 	"go.uber.org/atomic"
 )
 
 func Test_server_Checkout(t *testing.T) {
+	config.Get().IsBlackFriday = true
 	type fields struct {
 		UnimplementedEcommerceServiceServer pb.UnimplementedEcommerceServiceServer
 		db                                  db.Database

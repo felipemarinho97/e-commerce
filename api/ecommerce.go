@@ -7,6 +7,7 @@ import (
 	"math"
 
 	"github.com/felipemarinho97/e-commerce/common"
+	"github.com/felipemarinho97/e-commerce/config"
 	"github.com/felipemarinho97/e-commerce/db"
 	"github.com/felipemarinho97/e-commerce/discount"
 	pb "github.com/felipemarinho97/e-commerce/examples/go/protos/api"
@@ -34,9 +35,11 @@ func (s server) Checkout(ctx context.Context, in *pb.CheckoutRequest) (*pb.Check
 		}
 	}
 
-	err := addGift(ctx, response, s.db)
-	if err != nil {
-		common.Logger.LogError("Checkout", "error getting gift", err.Error())
+	if config.Get().IsBlackFriday {
+		err := addGift(ctx, response, s.db)
+		if err != nil {
+			common.Logger.LogError("Checkout", "error getting gift", err.Error())
+		}
 	}
 
 	response.TotalAmountWithDiscount = response.TotalAmount - response.TotalDiscount
