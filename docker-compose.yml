@@ -13,6 +13,7 @@ services:
       - HASH_PORT=50051
       - HASH_PRODUCTS_MOCK_FILE=/products.json
       - HASH_DISCOUNT_ADDR=discount:50051
+      - HASH_IS_BLACK_FRIDAY=false
   ecommerce-rest:
     build:
       context: rest

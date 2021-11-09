@@ -15,6 +15,7 @@ type Config struct {
 	Host             string `json:"host" cfg:"host" cfgDefault:"localhost"`
 	Port             int    `json:"port" cfg:"port" cfgDefault:"8080"`
 	ProductsMockFile string `json:"products_mock_file" cfg:"products_mock_file" cfgDefault:"./products.json"`
+	IsBlackFriday    bool   `json:"is_black_friday" cfg:"is_black_friday" cfgDefault:"false"`
 }
 
 var (

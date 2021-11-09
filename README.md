@@ -11,6 +11,7 @@ It consists in a gRPC micro-service that only handles the method "Checkout".
 | HASH_HOST | str | localhost | Host used by gRPC API to receive requests. |
 | HASH_DISCOUNT_ADDR | str | localhost:5050 | Address used by gRPC API to comunicate with discount micro-service. |
 | HASH_PRODUCTS_MOCK_FILE | str | ./products.json | Path to the file containing the products. |
+| HASH_IS_BLACK_FRIDAY | bool | false | If true, the gift is applied to the checkout. |
 
 ## - ecommerce-rest
 
@@ -41,6 +42,8 @@ docker-compose up -d --build
         ]
     }'
 
+If you want to test the service during the Black Friday, you can set the env variable `HASH_IS_BLACK_FRIDAY` to `true`.
+
 ## API Swagger
 After running the docker-compose stack, the Swagger UI will be available at [http://localhost:8080/](http://localhost:8080/).
 
@@ -64,9 +67,9 @@ Then type:
 Unit tests cover the following percentages of the packages as shown below:
 - db: 100%
 - discount: 83.3% (This percentage ignores the protobuf generated code)
-- api: 66.7%
+- api: 67.3%
 
-The overall coverage is: 83.33%
+The overall coverage is: 83.53%
 
 ### Running the unit tests
 Run the following command at the root of the project:
