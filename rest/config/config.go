@@ -13,6 +13,7 @@ import (
 type Config struct {
 	Host     string `json:"host" cfg:"host" cfgDefault:"localhost"`
 	Port     int    `json:"port" cfg:"port" cfgDefault:"8080"`
+	GRPCHost string `json:"grpc_host" cfg:"grpc_host" cfgDefault:"localhost"`
 	GRPCPort int    `json:"grpc_port" cfg:"grpc_port" cfgDefault:"50051"`
 }
 
