@@ -2,10 +2,12 @@ package db
 
 import (
 	"context"
+	"encoding/json"
 	"reflect"
 	"testing"
 
 	"github.com/felipemarinho97/e-commerce/common"
+	"github.com/felipemarinho97/e-commerce/config"
 	"go.uber.org/atomic"
 )
 
@@ -147,7 +149,7 @@ func TestDB_GetProduct(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			db := &DB{
-				products: tt.fields.products,
+				Products: tt.fields.products,
 			}
 			got, err := db.GetProduct(tt.args.ctx, tt.args.id, tt.args.quantity)
 			if err != tt.wantErr {
@@ -156,6 +158,57 @@ func TestDB_GetProduct(t *testing.T) {
 			}
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("DB.GetProduct() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestNew(t *testing.T) {
+	tests := []struct {
+		name     string
+		mockFile string
+		want     Database
+		wantErr  bool
+	}{
+		{
+			name:     "successfuly create a new database",
+			mockFile: "./fixtures/empty.json",
+			want: &DB{
+				Products: &map[int64]*Product{0: {}},
+			},
+			wantErr: false,
+		},
+		{
+			name:     "fail to create a new database",
+			mockFile: "invalid.json",
+			want:     nil,
+			wantErr:  true,
+		},
+		{
+			name:     "fail to create a new database",
+			mockFile: "./fixtures/fail.txt",
+			want:     nil,
+			wantErr:  true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			config.Get().ProductsMockFile = tt.mockFile
+			got, err := New()
+			if (err != nil) != tt.wantErr {
+				t.Errorf("New() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			g, err := json.Marshal(got)
+			if err != nil {
+				t.Errorf("failed to marshal got: %v", err)
+			}
+			w, err := json.Marshal(tt.want)
+			if err != nil {
+				t.Errorf("failed to marshal tt.want: %v", err)
+			}
+			if string(g) != string(w) {
+				t.Errorf("New() = %v, want %v", string(g), string(w))
 			}
 		})
 	}

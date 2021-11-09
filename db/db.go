@@ -3,8 +3,8 @@ package db
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
-	"os"
 
 	"github.com/felipemarinho97/e-commerce/common"
 	"github.com/felipemarinho97/e-commerce/config"
@@ -34,17 +34,15 @@ type ProductResponse struct {
 	Price  int64 `json:"price"`
 }
 
-func New() Database {
+func New() (Database, error) {
 	out, err := ioutil.ReadFile(config.Get().ProductsMockFile)
 	if err != nil {
-		common.Logger.LogFatal("error reading file", err.Error())
-		os.Exit(-1)
+		return nil, fmt.Errorf("error reading file: %s", err.Error())
 	}
 	var products []Product
 	err = json.Unmarshal(out, &products)
 	if err != nil {
-		common.Logger.LogFatal("error unmarshalling file", err.Error())
-		os.Exit(-1)
+		return nil, fmt.Errorf("error unmarshalling file: %s", err.Error())
 	}
 
 	var pMap map[int64]*Product = make(map[int64]*Product, len(products))
@@ -56,7 +54,7 @@ func New() Database {
 
 	return &DB{
 		Products: &pMap,
-	}
+	}, nil
 }
 
 func (db *DB) GetProduct(ctx context.Context, id, quantity int64) (ProductResponse, error) {

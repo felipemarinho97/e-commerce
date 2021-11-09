@@ -21,7 +21,11 @@ type server struct {
 func Server(ctx context.Context) {
 	cfg := config.Get()
 
-	database := db.New()
+	database, err := db.New()
+	if err != nil {
+		common.Logger.LogFatal("Server", err.Error())
+		os.Exit(-1)
+	}
 
 	lis, err := net.Listen("tcp", fmt.Sprintf("%s:%d", cfg.Host, cfg.Port))
 	if err != nil {
