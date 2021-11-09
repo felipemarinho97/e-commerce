@@ -1,0 +1,42 @@
+version: "3.8"
+services:
+  ecommerce:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ecommerce
+    volumes:
+      - ./db/products.json:/products.json
+    restart: on-failure
+    environment:
+      - HASH_HOST=0.0.0.0
+      - HASH_PORT=50051
+      - HASH_PRODUCTS_MOCK_FILE=/products.json
+      - HASH_DISCOUNT_ADDR=discount:50051
+  ecommerce-rest:
+    build:
+      context: rest
+      dockerfile: Dockerfile
+    container_name: ecommerce-rest
+    ports:
+      - "80:80"
+    depends_on:
+      - ecommerce
+    restart: on-failure
+    environment:
+      - HASH_HOST=0.0.0.0
+      - HASH_PORT=80
+      - HASH_GRPC_HOST=ecommerce
+      - HASH_GRPC_PORT=50051
+  ecommerce-docs:
+    image: swaggerapi/swagger-ui:v3.20.9
+    container_name: "ecommerce-docs"
+    environment:
+      - SWAGGER_JSON=/api/docs/openapi.json
+    volumes:
+      - ./doc/openapiv2/protos/api/ecommerce.swagger.json:/api/docs/openapi.json
+    ports:
+      - "8080:8080"
+  discount:
+    image: docker.io/hashorg/hash-mock-discount-service:latest
+    container_name: discount

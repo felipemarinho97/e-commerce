@@ -1,0 +1,182 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Ecommerce API",
+    "description": "Ecommerce API",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "EcommerceService"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/products": {
+      "post": {
+        "operationId": "EcommerceService_Checkout",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ecommerceCheckoutResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ecommerceCheckoutRequest"
+            }
+          }
+        ],
+        "tags": [
+          "EcommerceService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "ecommerceCheckoutRequest": {
+      "type": "object",
+      "properties": {
+        "products": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ecommerceProductRequest"
+          },
+          "description": "Products to be checked out"
+        }
+      }
+    },
+    "ecommerceCheckoutResponse": {
+      "type": "object",
+      "properties": {
+        "totalAmount": {
+          "type": "integer",
+          "format": "int64",
+          "example": 5245,
+          "description": "Total price of the products in cents"
+        },
+        "totalAmountWithDiscount": {
+          "type": "integer",
+          "format": "int64",
+          "example": 5245,
+          "description": "Total price of the products with discount in cents"
+        },
+        "totalDiscount": {
+          "type": "integer",
+          "format": "int64",
+          "example": 0,
+          "description": "Total discount applied to the products in cents"
+        },
+        "products": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ecommerceProductResponse"
+          },
+          "description": "Products checked out"
+        }
+      }
+    },
+    "ecommerceProductRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "example": 1,
+          "description": "Product ID"
+        },
+        "quantity": {
+          "type": "integer",
+          "format": "int64",
+          "example": 5,
+          "description": "Quantity of products to be checked out"
+        }
+      }
+    },
+    "ecommerceProductResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "example": 1,
+          "description": "Product ID"
+        },
+        "quantity": {
+          "type": "integer",
+          "format": "int64",
+          "example": 5,
+          "description": "Quantity of products to be checked out"
+        },
+        "unitAmount": {
+          "type": "integer",
+          "format": "int64",
+          "example": 1045,
+          "description": "Unit price of the product in cents"
+        },
+        "totalAmount": {
+          "type": "integer",
+          "format": "int64",
+          "example": 5245,
+          "description": "Total price of the product in cents"
+        },
+        "discount": {
+          "type": "integer",
+          "format": "int64",
+          "example": 0,
+          "description": "Discount applied to the product in cents"
+        },
+        "isGift": {
+          "type": "boolean",
+          "format": "boolean",
+          "example": false,
+          "description": "Whether the product is a gift"
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}

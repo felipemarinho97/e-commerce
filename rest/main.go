@@ -22,7 +22,7 @@ func run() error {
 	// Register gRPC server endpoint
 	mux := runtime.NewServeMux()
 	opts := []grpc.DialOption{grpc.WithInsecure()}
-	err := pb.RegisterEcommerceServiceHandlerFromEndpoint(ctx, mux, fmt.Sprintf("%s:%d", cfg.Host, cfg.GRPCPort), opts)
+	err := pb.RegisterEcommerceServiceHandlerFromEndpoint(ctx, mux, fmt.Sprintf("%s:%d", cfg.GRPCHost, cfg.GRPCPort), opts)
 	if err != nil {
 		return err
 	}
