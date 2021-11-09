@@ -4,6 +4,15 @@ package ecommerce;
 option go_package = "github.com/felipemarinho97/ecommerce/examples/go/api";
 
 import "google/api/annotations.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+    info: {
+        title: "Ecommerce API",
+        version: "1.0.0",
+        description: "Ecommerce API",
+    },
+};
 
 service EcommerceService {
     rpc Checkout(CheckoutRequest) returns (CheckoutResponse) {
@@ -15,28 +24,89 @@ service EcommerceService {
 }
 
 message ProductRequest {
-    int64 id = 1;
-    int64 quantity = 2;
+    int64 id = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
+		description: "Product ID",
+        type: INTEGER,
+		format: "int64",
+		example: "1"
+	}];
+    int64 quantity = 2 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
+		description: "Quantity of products to be checked out",
+        type: INTEGER,
+		format: "int64",
+		example: "5"
+	}];
 }
 
 message ProductResponse {
-    int64 id = 1;
-    int64 quantity = 2;
-    int64 unit_amount = 3;
-    int64 total_amount = 4;
-    int64 discount = 5;
-    bool is_gift = 6;
+    int64 id = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
+		description: "Product ID",
+        type: INTEGER,
+		format: "int64",
+		example: "1"
+	}];
+    int64 quantity = 2 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
+		description: "Quantity of products to be checked out",
+        type: INTEGER,
+		format: "int64",
+		example: "5"
+	}];
+    int64 unit_amount = 3 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
+        description: "Unit price of the product in cents",
+        type: INTEGER,
+        format: "int64",
+        example: "1045",
+    }];
+    int64 total_amount = 4 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
+        description: "Total price of the product in cents",
+        type: INTEGER,
+        format: "int64",
+        example: "5245",
+    }];
+    int64 discount = 5 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
+        description: "Discount applied to the product in cents",
+        type: INTEGER,
+        format: "int64",
+        example: "0",
+    }];
+    bool is_gift = 6 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
+        description: "Whether the product is a gift",
+        type: BOOLEAN,
+        format: "boolean",
+        example: "false",
+    }];
 }
 
 message CheckoutRequest {
-    repeated ProductRequest products = 1;
+    repeated ProductRequest products = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
+        description: "Products to be checked out",
+        type: ARRAY
+    }];
 }
 
 message CheckoutResponse {
-    int64 total_amount = 1;
-    int64 total_amount_with_discount = 2;
-    int64 total_discount = 3;
-    repeated ProductResponse products = 4;
+    int64 total_amount = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
+        description: "Total price of the products in cents",
+        type: INTEGER,
+        format: "int64",
+        example: "5245",
+    }];
+    int64 total_amount_with_discount = 2 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
+        description: "Total price of the products with discount in cents",
+        type: INTEGER,
+        format: "int64",
+        example: "5245",
+    }];
+    int64 total_discount = 3 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
+        description: "Total discount applied to the products in cents",
+        type: INTEGER,
+        format: "int64",
+        example: "0",
+    }];
+    repeated ProductResponse products = 4 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
+        description: "Products checked out",
+        type: ARRAY
+    }];
 }
 
 
