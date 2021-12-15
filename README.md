@@ -15,7 +15,7 @@ It consists in a gRPC micro-service that only handles the method "Checkout".
 
 ## - ecommerce-rest
 
-This is a proxy to the gRPC service. The mapping to REST is done by the `ecomerce-rest` micro-service using the grpc-gateway plugin. 
+This is a proxy to the gRPC service. The mapping to REST is done by the `ecommerce-rest` micro-service using the grpc-gateway plugin. 
 
 The `ecommerce-rest` implement the following endpoints:
  - POST /v1/products
